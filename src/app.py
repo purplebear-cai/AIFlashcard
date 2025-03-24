@@ -5,9 +5,6 @@ import json
 import random
 from flashprompt import get_question_flashcard_prompt, get_japanese_flashcard_prompt
 
-# OpenAI API Key (replace with your own or use a secure method to store it)
-OPENAI_API_KEY = ""
-
 # Function to call GPT-4o for flashcard generation
 def generate_flashcards(user_group, topic):
     if topic in ["Animal Flashcards", "Math Questions", "Science Trivia", 
