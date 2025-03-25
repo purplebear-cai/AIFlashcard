@@ -18,13 +18,13 @@ This project is a **flashcard generator** built with **Python and Streamlit**, a
 ## Installation
 
 1. Clone the repository:
-   ```sh
+   ```
    git clone https://github.com/purplebear-cai/AIFlashcard.git
    cd AIFlashcard
    ```
 
 2. Install dependencies:
-   ```sh
+   ```
    pip install -r requirements.txt
    ```
 
@@ -35,12 +35,12 @@ This project is a **flashcard generator** built with **Python and Streamlit**, a
    ```
 
    Set up your PYTHONPATH:
-   ```sh
+   ```
    export PYTHONPATH={Folder_to_AIFlashcard}
    ```
 
 4. Run the Streamlit app:
-   ```sh
+   ```
    streamlit run src/app.py
    ```
 
