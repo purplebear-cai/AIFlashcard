@@ -1,5 +1,6 @@
 
-def get_question_flashcard_prompt(user_group, topic):
+def get_question_flashcard_prompt(user_group: str, topic: str) -> str:
+    """Prompt for question flashcards. The front is the question, and the back is the answer."""
     return f"""
         Generate 10 fun and engaging flashcards for {user_group} on the topic of {topic}.
         The output should be a JSON list of dictionaries, where each dictionary has 'front' and 'back' keys.
@@ -12,7 +13,8 @@ def get_question_flashcard_prompt(user_group, topic):
         ]
     """
 
-def get_japanese_flashcard_prompt(topic):
+def get_japanese_flashcard_prompt() -> str:
+    """Specific prompt for Japanese flashcards."""
     return f"""
         Generate 10 flashcards for Japanese learners.
         The output should be a JSON list of dictionaries, where each dictionary has 'front' and 'back' keys.

@@ -1,61 +1,14 @@
 import streamlit as st
-import os
-import openai
-import json
-import random
-from flashprompt import get_question_flashcard_prompt, get_japanese_flashcard_prompt
-
-# Function to call GPT-4o for flashcard generation
-def generate_flashcards(user_group, topic):
-    if topic in ["Animal Flashcards", "Math Questions", "Science Trivia", 
-                 "Safari Animals", "Ocean Animals", "Pet Animals"]:
-        prompt = get_question_flashcard_prompt(user_group, topic)
-    elif topic in ["Japanese Flashcards"]:
-        prompt = get_japanese_flashcard_prompt(topic)
-    else:
-        raise ValueError("Unknown topic identified!")
-    
-    response = openai.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "system", "content": "You are a flashcard generator that creates fun and engaging cards for kids."},
-                  {"role": "user", "content": prompt}],
-        temperature=1,
-    )
-    flashcards_str = response.choices[0].message.content.strip()
-    flashcards_str = flashcards_str.replace("```json\n", "").replace("\n```", "").strip()
-    try:
-        flashcards = json.loads(flashcards_str)
-    except json.JSONDecodeError:
-        st.error(f"Error decoding JSON. Check LLM output.\n{flashcards_str}")
-        flashcards = []
-
-    return [card for card in flashcards if len(card) == 2]
-
-# Function to save flashcards
-def save_flashcards(flashcards, topic):
-    filedir = f"data/{topic}"
-    if not os.path.exists(filedir):
-        os.makedirs(filedir)
-    filename = random.getrandbits(128)
-    filepath = f"{filedir}/{filename}.json"
-        
-
-    with open(filepath, "w") as f:
-        json.dump(flashcards, f)
-
-# Function to load flashcards
-def load_flashcards(uploaded_file):
-    return json.load(uploaded_file)
-
-# Function to handle card flipping
-def flip_card(is_flipped):
-    return not is_flipped
-
-# Function to reset session state
-def reset_session_state():
-    st.session_state["flashcards"] = []
-    st.session_state["current_index"] = 0
-    st.session_state["flipped"] = False
+from src.utils import (
+    flip_card,
+    load_flashcards,
+    save_flashcards,
+    generate_flashcards,
+    reset_session_state,
+)
+from src.constant import (
+    MATH, SCIENCE, ANIMAL, SAFARI_ANIMAL, OCEAN_ANIMAL, FRUIT_AND_FOOD, JAPANESE
+)
 
 # Streamlit UI with Kids-Friendly Design
 st.set_page_config(page_title="Fun Flashcard Creator", page_icon="📚", layout="centered")
@@ -65,8 +18,7 @@ st.markdown("<h1 style='text-align: center; color: #FF69B4;'>🎨 Fun Flashcard 
 st.markdown("<h3 style='color: #FFA500;'>📌 Select Your Preferences</h3>", unsafe_allow_html=True)
 user_group = st.selectbox("Select User Group:", ["Pre-K to Grade 1", "Grade 2 to Grade 3", "Grade 4 and above"], index=0)
 topic = st.selectbox("Select Flashcard Type:", [
-    "Japanese Flashcards", "Animal Flashcards", "Math Questions", "Science Trivia",
-    "Safari Animals", "Ocean Animals", "Pet Animals",
+    MATH, SCIENCE, ANIMAL, SAFARI_ANIMAL, OCEAN_ANIMAL, FRUIT_AND_FOOD, JAPANESE
 ], index=0)
 
 # Refresh Button
@@ -95,13 +47,8 @@ if "current_index" not in st.session_state:
 if "flipped" not in st.session_state:
     st.session_state["flipped"] = False
 
-# Cache the flashcards and current index
-# @st.cache_data
-def get_state():
-    return st.session_state["flashcards"], st.session_state["current_index"]
-
 # Load the state
-flashcards, current_index = get_state()
+flashcards, current_index = st.session_state["flashcards"], st.session_state["current_index"]
 
 if flashcards:
     if 0 <= current_index < len(flashcards):
