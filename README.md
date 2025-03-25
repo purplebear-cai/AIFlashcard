@@ -45,10 +45,10 @@ This project is a **flashcard generator** built with **Python and Streamlit**, a
    ```
 
 ## Usage
-	1.	Select user group and topic.
-	2.	Click Generate Flashcards to create a set of 10 flashcards.
-	3.	Click a flashcard to flip between front and back.
-	4.	Use Next/Previous buttons to navigate.
-	5.	Click Save to store flashcards locally.
-	6.	Upload a previously saved file to load flashcards again.
-    7.  Do not forget to click **Refresh** if you want to reupload or regenearte new flashcards
+1. Select user group and topic.
+2. Click Generate Flashcards to create a set of 10 flashcards.
+3. Click a flashcard to flip between front and back.
+4. Use Next/Previous buttons to navigate.
+5. Click Save to store flashcards locally.
+6. Upload a previously saved file to load flashcards again.
+7. Do not forget to click **Refresh** if you want to reupload or regenearte new flashcards
